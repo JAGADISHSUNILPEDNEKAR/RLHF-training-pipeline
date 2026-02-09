@@ -1,0 +1,16 @@
+transformers
+datasets
+trl
+peft
+bitsandbytes
+accelerate
+ipywidgets
+wandb
+torch>=2.0.0
+torchvision
+torchaudio
+pandas
+numpy
+matplotlib
+scikit-learn
+-f https://download.pytorch.org/whl/cu118
