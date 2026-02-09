@@ -28,4 +28,5 @@ RUN pip install -e .
 EXPOSE 7860
 
 # Command to run the application
-CMD ["python", "src/app.py"]
+# Command to run the application using the new root entry point
+CMD ["python", "app.py"]

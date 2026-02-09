@@ -180,5 +180,10 @@ with gr.Blocks(theme=theme, title="RLHF Training Pipeline") as app:
         dpo_btn.click(lambda: run_training_script("run_dpo.py"), outputs=status_box)
         ppo_btn.click(lambda: run_training_script("run_ppo.py"), outputs=status_box)
 
+
+# Expose the app object for the root script
+app_interface = app
+
 if __name__ == "__main__":
     app.launch()
+

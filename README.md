@@ -100,6 +100,21 @@ Modify `src/config.py` to change parameters such as:
 - `learning_rate`
 - `output_dir`
 
+## 🚀 Deployment
+
+### Docker
+Build and run the container:
+```bash
+docker build -t rlhf-pipeline .
+docker run -p 7860:7860 rlhf-pipeline
+```
+
+### Hugging Face Spaces
+This repository is configured for easy deployment on Hugging Face Spaces using the Docker SDK.
+1. Create a new Space.
+2. Select **Docker** as the SDK.
+3. Push this code to the Space's repository.
+
 ## 🤝 Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.

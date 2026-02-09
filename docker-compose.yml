@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  rlhf-pipeline:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      # Mount source code for development (optional, remove for production)
+      - ./src:/app/src
+      - ./app.py:/app/app.py
+    environment:
+      - PORT=7860
+      - SERVER_NAME=0.0.0.0
+      # Add Hugging Face token if using gated models
+      # - HF_TOKEN=${HF_TOKEN}
+    restart: unless-stopped
