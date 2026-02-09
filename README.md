@@ -2,6 +2,9 @@
 
 This repository contains a modular implementation of a Reinforcement Learning from Human Feedback (RLHF) pipeline, migrated from a Google Colab notebook. It supports Annotation, DPO (Direct Preference Optimization), and PPO (Proximal Policy Optimization) training.
 
+## Google Colab Link 
+https://colab.research.google.com/drive/1FRDL6FjOqkULM8Rzs3_Niqkws_zeOvCt
+
 ## Directory Structure
 
 ```
