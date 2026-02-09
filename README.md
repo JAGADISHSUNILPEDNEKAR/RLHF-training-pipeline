@@ -1,17 +1,43 @@
 # RLHF Training Pipeline
 
-This repository contains a modular implementation of a Reinforcement Learning from Human Feedback (RLHF) pipeline, migrated from a Google Colab notebook. It supports Annotation, DPO (Direct Preference Optimization), and PPO (Proximal Policy Optimization) training.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-## Google Colab Link 
-https://colab.research.google.com/drive/1FRDL6FjOqkULM8Rzs3_Niqkws_zeOvCt
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1FRDL6FjOqkULM8Rzs3_Niqkws_zeOvCt)
 
-## Directory Structure
+A modular, production-ready implementation of a **Reinforcement Learning from Human Feedback (RLHF)** pipeline. This project supports the full lifecycle of RLHF: **Annotation** (Human Feedback), **DPO** (Direct Preference Optimization), and **PPO** (Proximal Policy Optimization).
+
+## 🏗 Architecture
+
+```mermaid
+graph TD
+    A[Base Model] -->|Load| B(Annotation UI)
+    B -->|Human Preferences| C[Preference Dataset]
+    C -->|Train| D[DPO Trainer]
+    C -->|Train| E[Reward Model]
+    E -->|Train| F[PPO Trainer]
+    D --> G[Fine-tuned Model]
+    F --> G
+```
+
+## 🚀 Features
+
+- **Modular Design**: tailored for ease of use and extensibility.
+- **Dual Training Modes**: Support for both DPO and PPO.
+- **Interactive Annotation**: Built-in UI for collecting human feedback.
+- **Configurable**: Centralized configuration for all hyperparameters.
+
+## 📂 Directory Structure
 
 ```
 rlhf-pipeline/
 ├── config/             # Configuration files
 ├── data/               # Data storage
-├── notebooks/          # Jupyter notebooks for UI
+├── notebooks/          # Jupyter notebooks for experimentation
 ├── output/             # Model outputs
 ├── scripts/            # CLI Execution scripts
 ├── src/                # Source code
@@ -22,57 +48,62 @@ rlhf-pipeline/
 │   ├── trainer_dpo.py  # DPO training
 │   ├── trainer_ppo.py  # PPO training
 │   └── utils.py        # Utilities
-├── requirements.txt    # Dependencies
+├── tests/              # Unit tests
+├── pyproject.toml      # Project configuration & dependencies
 └── README.md           # Documentation
 ```
 
-## Setup
+## 🛠 Installation
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repo-url>
+    git clone https://github.com/YOUR_USERNAME/rlhf-pipeline.git
     cd rlhf-pipeline
     ```
 
 2.  **Install dependencies:**
     ```bash
-    pip install -r requirements.txt
+    pip install -e ".[dev]"
     ```
+    This installs the package in editable mode along with development tools.
 
-## Usage
+## 🏃 Usage
 
 ### 1. Annotation
-You can run the annotation tool in two ways:
+Collect human preferences for your model responses.
 
-**Option A: Jupyter Notebook (Recommended)**
-Open `notebooks/annotation.ipynb` in Jupyter Lab or Notebook to use the interactive internal UI.
-
-**Option B: CLI**
-Run the command-line interface:
+**CLI Mode:**
 ```bash
 python scripts/run_annotation.py
 ```
-This will start an interactive session where you can prefer Response A or B.
 
 ### 2. DPO Training
-Once you have collected preferences (saved to `data/preferences.json`), run DPO training:
+Train the model using Direct Preference Optimization.
 
 ```bash
 python scripts/run_dpo.py
 ```
-This will train a model using the collected preferences and save it to `output/dpo_model`.
+*Output will be saved to `output/dpo_model`.*
 
 ### 3. PPO Training
-To run PPO training:
+Fine-tune the model using Proximal Policy Optimization.
 
 ```bash
 python scripts/run_ppo.py
 ```
-This will load a reward model and fine-tune using PPO.
 
-## Configuration
-Modify `src/config.py` to change parameters like:
+## ⚙️ Configuration
+
+Modify `src/config.py` to change parameters such as:
 - `model_name` (default: "gpt2")
 - `batch_size`
 - `learning_rate`
 - `output_dir`
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
