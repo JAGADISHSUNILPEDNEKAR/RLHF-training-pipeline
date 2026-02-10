@@ -3,12 +3,14 @@ import sys
 import os
 
 # Add project root to path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 
 class TestImports(unittest.TestCase):
     def test_config_import(self):
         try:
             from src.config import config
+
             self.assertIsNotNone(config)
         except ImportError:
             self.fail("Could not import config")
@@ -19,5 +21,6 @@ class TestImports(unittest.TestCase):
         except ImportError:
             self.fail("Could not import utils")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

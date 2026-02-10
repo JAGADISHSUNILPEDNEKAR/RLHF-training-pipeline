@@ -11,6 +11,6 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))
     # Get server_name from environment variable or default to 0.0.0.0 for Docker
     server_name = os.environ.get("SERVER_NAME", "0.0.0.0")
-    
+
     print(f"Starting app on {server_name}:{port}")
     app.launch(server_name=server_name, server_port=port)
