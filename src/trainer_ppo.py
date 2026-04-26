@@ -1,7 +1,11 @@
 import os
 import torch
 import numpy as np
-from trl import PPOTrainer, PPOConfig
+try:
+    from trl import PPOTrainer, PPOConfig
+except ImportError:
+    from trl.experimental.ppo import PPOTrainer, PPOConfig
+
 from .config import config
 from .models import load_ppo_model, load_reward_model, load_tokenizer
 from .utils import set_seed
