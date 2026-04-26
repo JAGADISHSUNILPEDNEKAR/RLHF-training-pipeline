@@ -4,7 +4,14 @@ from transformers import (
     AutoModelForCausalLM,
     AutoModelForSequenceClassification,
 )
-from trl import AutoModelForCausalLMWithValueHead
+try:
+    from trl import AutoModelForCausalLMWithValueHead
+except ImportError:
+    try:
+        from trl.models import AutoModelForCausalLMWithValueHead
+    except ImportError:
+        from trl.experimental.ppo import AutoModelForCausalLMWithValueHead
+
 from peft import prepare_model_for_kbit_training
 from .config import config
 
