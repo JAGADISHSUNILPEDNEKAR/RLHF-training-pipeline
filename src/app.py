@@ -1,9 +1,10 @@
-import gradio as gr
 import json
 import os
-import torch
-from threading import Thread
 import subprocess
+
+import gradio as gr
+import torch
+
 from .config import config
 from .models import load_base_model, load_tokenizer
 
@@ -46,7 +47,7 @@ def generate_chat_response(message, history):
     # Extract just the new part
     try:
         response = response.split("Assistant:")[-1].strip()
-    except:
+    except Exception:
         pass
 
     return response
@@ -187,7 +188,8 @@ with gr.Blocks(theme=theme, title="RLHF Training Pipeline") as app:
     with gr.Tab("⚙️ Training"):
         gr.Markdown("### Train your model")
         gr.Markdown(
-            "Once you have collected enough preferences, you can start the training process."
+            "Once you have collected enough preferences, you can start "
+            "the training process."
         )
 
         with gr.Row():

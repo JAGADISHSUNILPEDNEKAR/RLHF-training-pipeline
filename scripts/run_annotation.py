@@ -1,5 +1,4 @@
 from src.annotation import AnnotationUI
-import sys
 
 # Since AnnotationUI uses ipywidgets, it won't work in a standard terminal.
 # We'll create a simple CLI subclass or alternative here for terminal usage.
@@ -16,7 +15,8 @@ class CLIAnnotation(AnnotationUI):
         while self.current_index < len(self.sample_prompts):
             prompt = self.sample_prompts[self.current_index]
             print(
-                f"\nPrompt [{self.current_index + 1}/{len(self.sample_prompts)}]: {prompt}"
+                f"\nPrompt [{self.current_index + 1}/"
+                f"{len(self.sample_prompts)}]: {prompt}"
             )
             print("Generating responses...")
 

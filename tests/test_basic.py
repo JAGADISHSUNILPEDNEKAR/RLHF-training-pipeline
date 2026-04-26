@@ -1,6 +1,6 @@
-import unittest
-import sys
 import os
+import sys
+import unittest
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -18,6 +18,8 @@ class TestImports(unittest.TestCase):
     def test_utils_import(self):
         try:
             from src.utils import set_seed
+
+            self.assertIsNotNone(set_seed)
         except ImportError:
             self.fail("Could not import utils")
 

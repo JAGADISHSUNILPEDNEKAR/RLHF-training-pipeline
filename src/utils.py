@@ -1,7 +1,8 @@
+import logging
 import random
+
 import numpy as np
 import torch
-import logging
 
 
 def set_seed(seed=42):

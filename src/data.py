@@ -1,5 +1,6 @@
-from datasets import Dataset
 import json
+
+from datasets import Dataset
 
 
 def prepare_dataset(preferences):

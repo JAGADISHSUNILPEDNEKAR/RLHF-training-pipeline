@@ -1,15 +1,17 @@
 import os
-import torch
+
 import numpy as np
+import torch
+
 try:
-    from trl import PPOTrainer, PPOConfig
+    from trl import PPOConfig, PPOTrainer
 except ImportError:
-    from trl.experimental.ppo import PPOTrainer, PPOConfig
+    from trl.experimental.ppo import PPOConfig, PPOTrainer
 
 from .config import config
+from .data import load_preferences
 from .models import load_ppo_model, load_reward_model, load_tokenizer
 from .utils import set_seed
-from .data import load_preferences
 
 
 def train_ppo():
@@ -26,36 +28,43 @@ def train_ppo():
     # Original notebook loads reward model from output/reward_model.
     # We'll assume the user has a reward model there or load a default one.
     # The original notebook had a section "LOAD REWARD MODEL" using distilbert.
-    # But later in PPO loop it loads from os.path.join(config.output_dir, "reward_model")
+    # But later in PPO loop it loads from:
+    # os.path.join(config.output_dir, "reward_model")
     # PRE-REQUISITE: Reward model needs to be trained or exist.
-    # In the provided notebook logic, there isn't an explicit "Train Reward Model" step,
-    # it just jumps to loading it for PPO. Wait, looking at "LOAD REWARD MODEL" section commands:
+    # In the provided notebook logic, there isn't an explicit
+    # "Train Reward Model" step, it just jumps to loading it for PPO.
+    # Wait, looking at "LOAD REWARD MODEL" section commands:
     # `rm_name = "distilbert-base-uncased"` and loads it.
-    # The PPO section does: `reward_model = AutoModelForSequenceClassification.from_pretrained(os.path.join(config.output_dir, "reward_model"), ...)`
-    # This implies there might have been a missing step in the provided notebook explicitly training the RM,
-    # OR it expects the user to have run DPO which saves something? DPO saves a policy model.
+    # The PPO section does:
+    # `reward_model = AutoModelForSequenceClassification.from_pretrained(...)`
+    # This implies there might have been a missing step in the provided notebook
+    # explicitly training the RM, OR it expects the user to have run DPO which
+    # saves something? DPO saves a policy model.
     #
     # Actually, the original notebook code has:
-    # `rm_model = AutoModelForSequenceClassification.from_pretrained(rm_name, num_labels=1).to("cuda")`
+    # `rm_model = AutoModelForSequenceClassification.from_pretrained(...)`
     # PRE-DPO. Then DPO runs.
     # Then PPO runs, and loads `os.path.join(config.output_dir, "reward_model")`.
-    # BUT `rm_model` was never saved to `output_dir/reward_model` in the provided snippet!
+    # BUT `rm_model` was never saved to `output_dir/reward_model`
+    # in the provided snippet!
     # Steps provided:
     # 1. Load distilbert as rm_model.
-    # 2. Tokenize data for RM (but `rm_model` is never trained in the snippet provided!).
+    # 2. Tokenize data for RM (but `rm_model` is never trained!).
     # 3. DPO runs.
     # 4. PPO runs and tries to load from disk.
     #
     # CORRECTION: The notebook snippet provided for "PPO TRAINING" says:
-    # `reward_model = AutoModelForSequenceClassification.from_pretrained(os.path.join(config.output_dir, "reward_model"), ...)`
+    # `reward_model = AutoModelForSequenceClassification.from_pretrained(...)`
     # This will fail if the directory doesn't exist.
-    # However, I must keep functionality "identical". I will implement it as written,
-    # but I will assume `distilbert-base-uncased` if the local path doesn't exist, to prevent crashing.
+    # However, I must keep functionality "identical".
+    # I will implement it as written, but I will assume
+    # `distilbert-base-uncased` if the local path doesn't exist.
 
     reward_model_path = os.path.join(config.output_dir, "reward_model")
     if not os.path.exists(reward_model_path):
         print(
-            f"Reward model not found at {reward_model_path}, using distilbert-base-uncased default."
+            f"Reward model not found at {reward_model_path}, "
+            "using distilbert-base-uncased default."
         )
         reward_model, rm_tokenizer = load_reward_model("distilbert-base-uncased")
     else:
@@ -96,7 +105,7 @@ def train_ppo():
             reward = reward_model(**inputs).logits[0, 0].cpu()
 
         # PPO Step
-        stats = ppo_trainer.step([input_ids[0]], [response_tensors[0]], [reward])
+        _ = ppo_trainer.step([input_ids[0]], [response_tensors[0]], [reward])
 
         rewards.append(reward.item())
 

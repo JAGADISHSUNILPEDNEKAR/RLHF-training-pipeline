@@ -1,5 +1,5 @@
-import torch
 from transformers import TrainingArguments
+
 try:
     from trl import DPOTrainer
 except ImportError:
@@ -7,10 +7,12 @@ except ImportError:
     try:
         from trl.trainer import DPOTrainer
     except ImportError:
-        from trl import DPOTrainer  # Fallback to default which will raise error if truly missing
+        from trl import (
+            DPOTrainer,
+        )  # Fallback to default which will raise error if truly missing
 
 from .config import config
-from .data import prepare_dataset, load_preferences
+from .data import load_preferences, prepare_dataset
 from .models import load_dpo_model, load_tokenizer
 from .utils import set_seed
 

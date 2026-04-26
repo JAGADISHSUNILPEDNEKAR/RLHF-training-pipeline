@@ -1,8 +1,9 @@
-import ipywidgets as widgets
-from IPython.display import display, clear_output
 import json
-import os
+
+import ipywidgets as widgets
 import torch
+from IPython.display import display
+
 from .config import config
 from .models import load_base_model, load_tokenizer
 
@@ -101,7 +102,8 @@ class AnnotationUI:
             return
 
         prompt = self.sample_prompts[self.current_index]
-        # In a real app, generate asynchronously or cache. Here we generate on the fly which blocks UI.
+        # In a real app, generate asynchronously or cache.
+        # Here we generate on the fly which blocks UI.
         # But this matches the Colab notebook behavior.
         responses = self._generate_responses(prompt)
 

@@ -1,9 +1,10 @@
 import torch
 from transformers import (
-    AutoTokenizer,
     AutoModelForCausalLM,
     AutoModelForSequenceClassification,
+    AutoTokenizer,
 )
+
 try:
     from trl import AutoModelForCausalLMWithValueHead
 except ImportError:
@@ -12,7 +13,6 @@ except ImportError:
     except ImportError:
         from trl.experimental.ppo import AutoModelForCausalLMWithValueHead
 
-from peft import prepare_model_for_kbit_training
 from .config import config
 
 
